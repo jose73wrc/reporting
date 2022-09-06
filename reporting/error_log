@@ -1,0 +1,54 @@
+[05-Sep-2022 13:51:30 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function modReporting::read(), 0 passed in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/view/remarks.php on line 3 and exactly 1 expected in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php:652
+Stack trace:
+#0 /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/view/remarks.php(3): modReporting->read()
+#1 /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/view/index.php(33): include('/home/udiadmini...')
+#2 /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/reportingindex.php(271): include('/home/udiadmini...')
+#3 {main}
+  thrown in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 652
+[05-Sep-2022 13:53:21 UTC] PHP Fatal error:  Uncaught Error: Call to a member function fetch_array() on bool in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php:657
+Stack trace:
+#0 /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/view/analysis.php(3): modReporting->read('analysis')
+#1 /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/view/index.php(35): include('/home/udiadmini...')
+#2 /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/reportingindex.php(271): include('/home/udiadmini...')
+#3 {main}
+  thrown in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 657
+[05-Sep-2022 14:09:40 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 14:25:24 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 14:27:25 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:05:51 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:05:51 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:06:16 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:06:16 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:07:11 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:07:11 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:07:22 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:07:22 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:11:21 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:11:43 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 16:12:49 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:19:03 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:26:00 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:26:31 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:27:08 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:29:31 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:29:31 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:29:31 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:29:31 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:31:09 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:31:09 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:31:09 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:31:09 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:33:17 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:33:17 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:33:17 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:35:51 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:35:51 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:35:51 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:36:17 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:36:47 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:36:55 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:37:20 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:37:25 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 17:39:30 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 664
+[05-Sep-2022 18:07:07 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 678
+[05-Sep-2022 18:07:28 UTC] PHP Warning:  array_shift() expects parameter 1 to be array, null given in /home/udiadministrator/public_html/ofc.quickfixtrips.fun/custom/reporting/core/modules/modReporting.class.php on line 678
