@@ -285,6 +285,10 @@ if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] ==
 	$obj->save_report();
 }
 
+if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] == 'export'){
+	$obj->export();
+}
+
 
 // End of page
 llxFooter();
