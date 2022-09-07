@@ -670,8 +670,13 @@ class modReporting extends DolibarrModules
 	}
 
 	public function read($x){
-		$sql = "Select $x from $x";
 
+		if(isset($_GET['rptname']) && !empty($_GET['rptname'])){
+			$sql = "Select $x from fcreports where rptname = '".$_GET['rptname']."'";
+		}else{
+			$sql = "Select $x from fcreports";
+		}
+		
 		$result=$this->db->query($sql);			
 		$data = array();
 		while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
@@ -723,7 +728,7 @@ class modReporting extends DolibarrModules
         //create updated dropdown options
         $t = '';
         foreach($data as $d){            
-				$t .= '<a class="dropdown-item" href="#">'.$d["rptname"].'</a>';                  
+				$t .= '<a class="dropdown-item" href="?rptid='.$d["id"].'&rptname='.$d["rptname"].'">'.$d["rptname"].'</a>';                  
         }       
         
         return $t;       
@@ -732,7 +737,7 @@ class modReporting extends DolibarrModules
 	public function get_incomestmt_data(){       
         $data = array();
         if(!isset($_REQUEST['select_year'])){
-            $stmt_year = 2019;
+            $stmt_year = 2022;
         }else{
             $stmt_year = $_REQUEST['select_year'];
         }
@@ -760,14 +765,14 @@ class modReporting extends DolibarrModules
                 IFNULL(exp_total, 0) AS expenses,
                 IFNULL(monthly_interest_payments, 0) AS interest_payments
         FROM
-            i3797837_db2.months M
+            months M
         LEFT JOIN (SELECT 
             MONTH(datef) AS month_num,
                 MONTHNAME(datef) AS revenue_month,
                 YEAR(datef) AS revenue_year,
-                ROUND(SUM(total), 2) AS total_revenue
+                ROUND(SUM(total_ttc), 2) AS total_revenue
         FROM
-            db2_facture
+            db_facture
         GROUP BY YEAR(datef) , MONTH(datef)) I ON (I.month_num = M.month_id)
         LEFT JOIN (SELECT 
             MONTH(datef) AS vendor_month_num,
@@ -775,7 +780,7 @@ class modReporting extends DolibarrModules
                 YEAR(datef) AS vendor_year,
                 ROUND(SUM(total_ttc), 2) AS vendor_total
         FROM
-            i3797837_db2.db2_facture_fourn
+            db_facture_fourn
         GROUP BY YEAR(datef) , MONTH(datef)) V ON (V.vendor_month_num = M.month_id
             AND V.vendor_year = revenue_year)
         LEFT JOIN (SELECT 
@@ -786,7 +791,7 @@ class modReporting extends DolibarrModules
                 YEAR(DATE(date_approve)) AS exp_year,
                 ROUND(total_ttc, 2) AS exp_total
         FROM
-            db2_expensereport) E ON (E.month_num = M.month_id
+            db_expensereport) E ON (E.month_num = M.month_id
             AND E.exp_year = revenue_year)
         LEFT JOIN (SELECT 
             rowid,
@@ -797,7 +802,7 @@ class modReporting extends DolibarrModules
                 ROUND(amount_capital, 2) AS interest_payments,
                 SUM(ROUND(amount_capital, 2)) AS monthly_interest_payments
         FROM
-            db2_loan_schedule
+            db_loan_schedule
         GROUP BY YEAR(datep) , MONTH(datep)) L ON (L.month_num = M.month_id
             AND L.year_loan_payment = revenue_year)
         ORDER BY revenue_year , month_id) T1
@@ -808,12 +813,11 @@ class modReporting extends DolibarrModules
                 YEAR(datep) AS salary_payment_year,
                 ROUND(amount, 2) AS salary_amount
         FROM
-            db2_payment_salary
+            db_payment_salary
         GROUP BY YEAR(datep) , MONTH(datep)) B ON (T1.month_id = B.month_num)
         where revenue_year = ".$stmt_year."
         order by revenue_year, month_id";
                 
-
         $result=$this->db->query($sql);			
         $data = array();
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           

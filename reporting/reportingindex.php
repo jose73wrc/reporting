@@ -274,7 +274,7 @@ switch ($_REQUEST['idmenu']) {
     include 'view/index.php';
 	break;
   default:
-  	echo 'Instructions';
+  	include 'view/index.php';
 }
 
 if(isset($_POST) && !empty($_POST)){
@@ -287,6 +287,10 @@ if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] ==
 
 if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] == 'export'){
 	$obj->export();
+}
+
+if(isset($_POST['rptid']) && !empty($_POST['rptid'])){
+	//$obj->export();
 }
 
 
