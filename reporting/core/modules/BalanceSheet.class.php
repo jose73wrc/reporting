@@ -46,7 +46,10 @@ class BalanceSheet extends DolibarrModules
         $data = array();
                 
     }
-    
+    /**
+     * Create two outputs for export
+     * 
+     */
     public function get_balancesheet(){	
         $data = array();
         

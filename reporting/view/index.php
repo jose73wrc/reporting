@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Business Reporting</title>
-<meta name="description" content="Our first page">
+<meta name="description" content="Reporting">
 <meta name="keywords" content="html tutorial template">
 <meta charset="utf-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="view/view.css">
 </head>
 <body>
-    <h1>Business Report 2022</h1>
+    <h1><?php echo $obj->get_title();?></h1>
     <div class="container report">
         <div class="controls">
             <form name="controls" method="POST">
@@ -40,7 +40,8 @@
                 </div>
                     <!--<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-secondary">load</button>-->
                     <input type="submit" name="control" class="btn btn-outline-secondary" value="save" />
-                    <input type="submit" name="control" class="btn btn-outline-secondary" value="export" />           
+                    <input type="submit" name="control" class="btn btn-outline-secondary" value="export" />
+                    <!--<a type="button" name="control" class="btn btn-outline-secondary" value="download">download</a>-->           
                 </div>
             </form>
         </div>       
@@ -91,7 +92,7 @@
       </div>
     </div>
   </div>
-</div> 
+</div>  
 </body>
 </html>
 <?php

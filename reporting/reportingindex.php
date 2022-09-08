@@ -249,7 +249,22 @@ $i = new IncomeStatement($db);
 $c = new CashFlow($db);
 $obj = new modReporting($db);
 
-//echo $_REQUEST['idmenu'];
+if(isset($_POST) && !empty($_POST) && empty($_POST['rptname']) ){
+	$obj->save($_POST);
+}
+
+if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] == 'save'){
+	$obj->save_report();
+}
+
+if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] == 'export'){
+	$obj->export($_POST['rptname'], $i->get_incomestmt_data());	
+}
+
+if(isset($_REQUEST['rptid']) && !empty($_REQUEST['rptname'])){
+	//selected to load a report
+	$_SERVER['rptid'] = $_REQUEST['rptid'];	
+}
 
 switch ($_REQUEST['idmenu']) {
   case "245":
@@ -276,23 +291,6 @@ switch ($_REQUEST['idmenu']) {
   default:
   	include 'view/index.php';
 }
-
-if(isset($_POST) && !empty($_POST)){
-	$obj->save($_POST);
-}
-
-if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] == 'save'){
-	$obj->save_report();
-}
-
-if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] == 'export'){
-	$obj->export();
-}
-
-if(isset($_POST['rptid']) && !empty($_POST['rptid'])){
-	//$obj->export();
-}
-
 
 // End of page
 llxFooter();

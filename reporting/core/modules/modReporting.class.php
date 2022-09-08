@@ -650,9 +650,12 @@ class modReporting extends DolibarrModules
                     return $t;
     }
 
-	public function id_form($y){
+	public function id_form($y){		
+		$z = explode('?', $_SERVER['HTTP_REFERER']);
+		$w = explode('&', $z[1]);
+		$r = explode('=', $w[0]);
 		$x = '<form id='.$y.' method="post">';
-		$x .=  '<textarea name="text" id="editor1">'.$this->read($y).'</textarea>';
+		$x .=  '<textarea name="text" id="editor1">'.$this->read($y, $r).'</textarea>';
 		$x .=  '<input name="area" type="hidden" value="'.$y.'" />';
 		$x .=  '<input type="submit" value="submit"  />';
 		$x .=  '</form>';
@@ -661,33 +664,39 @@ class modReporting extends DolibarrModules
 		return $x;
 	}
 
-	public function save($x){
+	public function get_title(){
+		if(isset($_REQUEST['rptid']) && !empty($_REQUEST['rptname'])){
+			return $_REQUEST['rptname'];				
+		}else{
+			return 'Business Reporting';
+		}
+	}
+
+	public function save($x){		
 		$table = $x['area'];
 		$text = json_encode($x['text']);
-		$sql = "INSERT INTO $table ($table) VALUES ($text) ON DUPLICATE KEY UPDATE ".$x['area']." = '".$x['text']."';";
-		//exit($sql);					
+		$sql = "INSERT INTO $table ($table) VALUES ($text) ON DUPLICATE KEY UPDATE ".$x['area']." = '".$x['text']."'";
+		
 		$result=$this->db->query($sql);
 	}
 
-	public function read($x){
+	public function read($x, $y){
+		if(isset($_GET['rptid']) && isset($_GET['rptname'])){
+			$sql = "Select $x from fcreports where id = ".$_GET['rptid'];			
+			$result=$this->db->query($sql);			
+			$data = array();
+			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
+				$data[] = $row;
+			}
 
-		if(isset($_GET['rptname']) && !empty($_GET['rptname'])){
-			$sql = "Select $x from fcreports where rptname = '".$_GET['rptname']."'";
+			$this->db->free($result);
+
+			$d = array_shift($data);
+			$d2 = array_shift($d);
+			return $d2;
 		}else{
-			$sql = "Select $x from fcreports";
-		}
-		
-		$result=$this->db->query($sql);			
-		$data = array();
-		while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
-			$data[] = $row;
-		}
-
-		$this->db->free($result);
-
-		$d = array_shift($data);
-		$d2 = array_shift($d);
-		return $d2;
+			return null;
+		}		
 	}
 
 	public function save_report(){
@@ -734,115 +743,20 @@ class modReporting extends DolibarrModules
         return $t;       
     }
 
-	public function get_incomestmt_data(){       
-        $data = array();
-        if(!isset($_REQUEST['select_year'])){
-            $stmt_year = 2022;
-        }else{
-            $stmt_year = $_REQUEST['select_year'];
-        }
-        
-        $sql = "SELECT 
-        month_id,
-        mname,
-        revenue_year,
-        invoices,
-        purchase_orders,
-        expenses,
-        interest_payments,
-        ifnull(salary_amount,0) as salaries,
-        invoices-purchase_orders as gross_margin,
-        invoices-(purchase_orders+expenses+interest_payments+ifnull(salary_amount,0)) as operating_income,
-        (invoices-purchase_orders)*.189 as tax,
-        (invoices-(purchase_orders+expenses+interest_payments+ifnull(salary_amount,0)))-(expenses+((invoices-purchase_orders)*.189)) as net
-    FROM
-        (SELECT 
-            month_id,
-                mname,
-                revenue_year,
-                total_revenue AS invoices,
-                vendor_total AS purchase_orders,
-                IFNULL(exp_total, 0) AS expenses,
-                IFNULL(monthly_interest_payments, 0) AS interest_payments
-        FROM
-            months M
-        LEFT JOIN (SELECT 
-            MONTH(datef) AS month_num,
-                MONTHNAME(datef) AS revenue_month,
-                YEAR(datef) AS revenue_year,
-                ROUND(SUM(total_ttc), 2) AS total_revenue
-        FROM
-            db_facture
-        GROUP BY YEAR(datef) , MONTH(datef)) I ON (I.month_num = M.month_id)
-        LEFT JOIN (SELECT 
-            MONTH(datef) AS vendor_month_num,
-                MONTHNAME(datef) AS vendor_month,
-                YEAR(datef) AS vendor_year,
-                ROUND(SUM(total_ttc), 2) AS vendor_total
-        FROM
-            db_facture_fourn
-        GROUP BY YEAR(datef) , MONTH(datef)) V ON (V.vendor_month_num = M.month_id
-            AND V.vendor_year = revenue_year)
-        LEFT JOIN (SELECT 
-            ref,
-                MONTH(date_approve) AS month_num,
-                DATE(date_approve) AS exp_date,
-                MONTHNAME(DATE(date_approve)) AS exp_month,
-                YEAR(DATE(date_approve)) AS exp_year,
-                ROUND(total_ttc, 2) AS exp_total
-        FROM
-            db_expensereport) E ON (E.month_num = M.month_id
-            AND E.exp_year = revenue_year)
-        LEFT JOIN (SELECT 
-            rowid,
-                datep AS date_loan_payment,
-                MONTH(datep) AS month_num,
-                YEAR(datep) AS year_loan_payment,
-                MONTHNAME(datep) AS month_loan_payment,
-                ROUND(amount_capital, 2) AS interest_payments,
-                SUM(ROUND(amount_capital, 2)) AS monthly_interest_payments
-        FROM
-            db_loan_schedule
-        GROUP BY YEAR(datep) , MONTH(datep)) L ON (L.month_num = M.month_id
-            AND L.year_loan_payment = revenue_year)
-        ORDER BY revenue_year , month_id) T1
-            LEFT JOIN
-        (SELECT 
-            datep,
-                MONTH(datep) AS month_num,
-                YEAR(datep) AS salary_payment_year,
-                ROUND(amount, 2) AS salary_amount
-        FROM
-            db_payment_salary
-        GROUP BY YEAR(datep) , MONTH(datep)) B ON (T1.month_id = B.month_num)
-        where revenue_year = ".$stmt_year."
-        order by revenue_year, month_id";
-                
-        $result=$this->db->query($sql);			
-        $data = array();
-        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
-            $data[$row['id']][] = $row;
-        }
-
-        $this->db->free($result);
-             
-       return $data;
-    }
-
-	public function export(){
+	public function export($n, $y){
         $r = rand();
-        $filePath = './testexcel_'.$r.'.xls';
+        $filePath = './'.$n.'_'.$r.'.xls';
         $writer = WriterEntityFactory::createXLSXWriter();       
         $writer->openToFile($filePath); // write data to a file or to a PHP stream
         
         //get income statement data
-        $v1 = array_shift($this->get_incomestmt_data());                
+        $v1 = array_shift($y);                
          
         foreach($v1 as $value){
             $rowFromValues = WriterEntityFactory::createRowFromArray($value);
             $writer->addRow($rowFromValues);
         }
         
-        $writer->close();
+        $writer->close();		
     }
 }
