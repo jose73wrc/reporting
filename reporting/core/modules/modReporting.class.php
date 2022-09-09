@@ -749,10 +749,11 @@ class modReporting extends DolibarrModules
         $writer = WriterEntityFactory::createXLSXWriter();       
         $writer->openToFile($filePath); // write data to a file or to a PHP stream
         
-        //get income statement data
-        $v1 = array_shift($y);                
-         
-        foreach($v1 as $value){
+        //get statement data
+		print_r($y[1]);
+        $v1 = array_shift($y[1]);                
+       
+        foreach($v1 as $value){			
             $rowFromValues = WriterEntityFactory::createRowFromArray($value);
             $writer->addRow($rowFromValues);
         }

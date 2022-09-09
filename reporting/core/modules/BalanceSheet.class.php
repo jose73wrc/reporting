@@ -138,11 +138,18 @@ class BalanceSheet extends DolibarrModules
        // exit($sql);
         $result=$this->db->query($sql);			
         
-        while ($row = $this->db->fetch_array($result)) {
+        /*while ($row = $this->db->fetch_array($result)) {
+            $data[] = $row;
+        }*/
+
+       	
+        $data = array();
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
             $data[] = $row;
         }
 
         $this->db->free($result);
+
         $b = array_shift($data);
         
         $t = '<h4 style="text-align:center">Balance Sheet</h4>';
@@ -153,8 +160,8 @@ class BalanceSheet extends DolibarrModules
             }                     
         }
         $t .= '</table><br>';
-       
-        return $t;
+        
+        return [$t,array(array($b))];
     }
 
 }

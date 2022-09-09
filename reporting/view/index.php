@@ -50,7 +50,8 @@
             <div class=" row charts"></div>
             <div class="text"><?php include 'analysis.php';?></div>
             <div class=" row charts">
-                <div class="col-6"><?php echo $b->get_balancesheet();?></div>
+            <?php $h = $b->get_balancesheet();?>
+                <div class="col-6"><?php echo $h[0];?></div>
                 <div class="col-6"><?php echo $r->get_ratios(); ?></div>
             </div>
             <div class="text"></div>
