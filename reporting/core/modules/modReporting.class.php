@@ -31,7 +31,7 @@ include_once DOL_DOCUMENT_ROOT.'/core/modules/DolibarrModules.class.php';
 //PHP Excel
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Common\Entity\Row;
-require_once '../reporting/spout-3.3.0/src/Spout/Autoloader/autoload.php';
+require_once DOL_DOCUMENT_ROOT.'/custom/reporting/spout-3.3.0/src/Spout/Autoloader/autoload.php';
 include_once DOL_DOCUMENT_ROOT .'/core/modules/DolibarrModules.class.php';
 /**
  *  Description and activation class for module Reporting
@@ -743,20 +743,36 @@ class modReporting extends DolibarrModules
         return $t;       
     }
 
-	public function export($n, $y){
+	public function export($n, $y, $z){
         $r = rand();
         $filePath = './'.$n.'_'.$r.'.xls';
         $writer = WriterEntityFactory::createXLSXWriter();       
         $writer->openToFile($filePath); // write data to a file or to a PHP stream
         
         //get statement data
-		print_r($y[1]);
-        $v1 = array_shift($y[1]);                
+        $v1 = array_shift($y[1]);
+		$v2 = array_shift($z[1]);
+		//$v3 = array_shift($v2);               
        
         foreach($v1 as $value){			
             $rowFromValues = WriterEntityFactory::createRowFromArray($value);
             $writer->addRow($rowFromValues);
         }
+
+		// Customizing the sheet name when writing
+		$sheet = $writer->getCurrentSheet();
+		$sheet->setName('Income Stmt');
+
+		$newSheet = $writer->addNewSheetAndMakeItCurrent();
+
+		foreach($v2 as $value){			
+            $rowFromValues = WriterEntityFactory::createRowFromArray($value);
+            $writer->addRow($rowFromValues);
+        }
+
+		// Customizing the sheet name when writing
+		$sheet = $writer->getCurrentSheet();
+		$sheet->setName('Balance Sheet');
         
         $writer->close();		
     }

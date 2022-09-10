@@ -41,9 +41,7 @@ class BalanceSheet extends DolibarrModules
 	public function __construct($db)
 	{
 		global $langs, $conf;
-		$this->db = $db;
-
-        $data = array();
+		$this->db = $db;       
                 
     }
     /**
@@ -52,7 +50,7 @@ class BalanceSheet extends DolibarrModules
      */
     public function get_balancesheet(){	
         $data = array();
-        
+                
         $sql ='SELECT 
         SUM(invoices) AS Current_Assets,
         SUM(purchase_orders) AS Current_Liabilities,
@@ -137,21 +135,20 @@ class BalanceSheet extends DolibarrModules
         
        // exit($sql);
         $result=$this->db->query($sql);			
-        
+        $b = array();
         /*while ($row = $this->db->fetch_array($result)) {
             $data[] = $row;
         }*/
 
        	
-        $data = array();
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
             $data[] = $row;
         }
 
         $this->db->free($result);
-
+        //print_r($data);
         $b = array_shift($data);
-        
+                
         $t = '<h4 style="text-align:center">Balance Sheet</h4>';
         $t .= '<table class="noborder">';
         foreach($b as $c=>$d){
@@ -160,8 +157,18 @@ class BalanceSheet extends DolibarrModules
             }                     
         }
         $t .= '</table><br>';
-        
-        return [$t,array(array($b))];
+
+         $s[] = array(
+            'Current_Assets'=>'Current Assets',
+            'Current_Liabilities'=>'Current Liabilities',
+            'Expenses'=>'Expenses',
+            'Taxes'=>'Taxes',
+            'Interest_Payments'=>'Interest Payments',
+            'shareholder_equity'=>'Shareholders Equity'
+        );
+        $s[]= $b;
+        //print_r($s);  
+        return [$t,array($s)];
     }
 
 }

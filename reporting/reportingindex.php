@@ -258,8 +258,8 @@ if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] ==
 }
 
 if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] == 'export'){
-	$obj->export($_POST['rptname'], $i->get_incomestmt());	
-	$obj->export($_POST['rptname'], $b->get_balancesheet());	
+	$obj->export($_POST['rptname'], $i->get_incomestmt(), $b->get_balancesheet());	
+	//$obj->export($_POST['rptname'], $b->get_balancesheet());	
 }
 
 if(isset($_REQUEST['rptid']) && !empty($_REQUEST['rptname'])){

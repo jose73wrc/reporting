@@ -48,7 +48,6 @@ class IncomeStatement extends DolibarrModules
     }
 
     public function get_incomestmt(){       
-        $data = array();
         if(!isset($_REQUEST['select_year'])){
             $stmt_year = 2022;
         }else{
@@ -132,21 +131,38 @@ class IncomeStatement extends DolibarrModules
         order by revenue_year, month_id";
                 
 
-        $result=$this->db->query($sql);			
+        $result=$this->db->query($sql);	       
         $data = array();
+        $data_export = array();
+
+        $data_export[] = array(
+            'month_id'=>'Id',
+            'mname'=>'Month',
+            'revenue_year'=>'Year',
+            'invoices'=> 'Invoices',
+            'purchase_orders'=> 'Purchase Orders',
+            'expenses'=>'Expenses',
+            'interest_payments'=>'Interest',
+            'salaries'=> 'Salaries',
+            'operating_income'=>'Operating Income',
+            'gross_margin'=>'Gross Margin',
+            'taxes'=>'Taxes',
+            'net'=>'Net'
+        );
+
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
             $data[$row['id']][] = $row;
+            $data_export[] = $row;
         }
 
         $this->db->free($result);
        $t = '<h4 style="text-align:center">Income Statement</h4>';
        $t .= '<table class="noborder">';
        $t .='<thead><th>Id</th><th>Month</th><th>Year</th><th>Invoices</th><th>Purchase Orders</th><th>Expenses</th><th>Interest</th><th>Salaries</th><th>Operating Income</th><th>Gross Margin</th><th>Taxes</th><th>Net</th></thead>';
-       foreach($data as $d){
-           
+       foreach($data as $d){           
             foreach($d as $j){
                 $t .='<tr>';
-                foreach($j as $i){
+                foreach($j as $i){                  
                     if($i<0){
                         $t .= '<td style="color:red"><b>'.$i.'</b></td>';
                     }elseif(!is_numeric($i)){
@@ -160,8 +176,8 @@ class IncomeStatement extends DolibarrModules
             
        }
        $t .= '</table>';
-       
-       return [$t, $data];
+          
+       return [print_r($t), array($data_export)];
     }
 
         
