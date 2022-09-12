@@ -1,5 +1,9 @@
 # CHANGELOG REPORTING FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
-## 1.0
+## 1.4
 
-Initial version
+Version 1.4 
+
+Fixed menu to work on new installation
+Export feature works with sheets
+

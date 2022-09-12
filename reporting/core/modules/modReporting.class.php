@@ -314,7 +314,7 @@ class modReporting extends DolibarrModules
 		$this->menu[$r++]=array(
 			'fk_menu'=>'fk_mainmenu=reporting',      // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',                          // This is a Left menu entry
-			'titre'=>'Instructions',
+			'titre'=>'instructions',
 			'prefix' => img_picto('', $this->picto, 'class="paddingright pictofixedwidth valignmiddle"'),
 			'mainmenu'=>'reporting',
 			'leftmenu'=>'myobject',
@@ -324,12 +324,13 @@ class modReporting extends DolibarrModules
 			'enabled'=>'$conf->reporting->enabled',  // Define condition to show or hide menu entry. Use '$conf->reporting->enabled' if entry must be visible if module is enabled.
 			'perms'=>'$user->rights->reporting->myobject->read',			                // Use 'perms'=>'$user->rights->reporting->level1->level2' if you want your menu with a permission rules
 			'target'=>'',
-			'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
+			'user'=>2,
+			'id'=>'instr'				                // 0=Menu for internal users, 1=external users, 2=both
 		);
 		$this->menu[$r++]=array(
 			'fk_menu'=>'fk_mainmenu=reporting,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'Remarks',
+			'titre'=>'remarks',
 			'mainmenu'=>'reporting',
 			'leftmenu'=>'reporting_myobject_list',
 			'url'=>'/custom/reporting/reportingindex.php',
@@ -343,7 +344,7 @@ class modReporting extends DolibarrModules
 		$this->menu[$r++]=array(
 			'fk_menu'=>'fk_mainmenu=reporting,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'Analysis',
+			'titre'=>'analysis',
 			'mainmenu'=>'reporting',
 			'leftmenu'=>'reporting_myobject_new',
 			'url'=>'/custom/reporting/reportingindex.php',
@@ -357,7 +358,7 @@ class modReporting extends DolibarrModules
 		$this->menu[$r++]=array(
 			'fk_menu'=>'fk_mainmenu=reporting,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'Sales/Operations',
+			'titre'=>'sales',
 			'mainmenu'=>'reporting',
 			'leftmenu'=>'reporting_myobject_list',
 			'url'=>'/custom/reporting/reportingindex.php',
@@ -371,7 +372,7 @@ class modReporting extends DolibarrModules
 		$this->menu[$r++]=array(
 			'fk_menu'=>'fk_mainmenu=reporting,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'Marketing',
+			'titre'=>'marketing',
 			'mainmenu'=>'reporting',
 			'leftmenu'=>'reporting_myobject_new',
 			'url'=>'/custom/reporting/reportingindex.php',
@@ -385,7 +386,7 @@ class modReporting extends DolibarrModules
 		$this->menu[$r++]=array(
 			'fk_menu'=>'fk_mainmenu=reporting,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'Forward',
+			'titre'=>'forward',
 			'mainmenu'=>'reporting',
 			'leftmenu'=>'reporting_myobject_new',
 			'url'=>'/custom/reporting/reportingindex.php',
@@ -399,7 +400,7 @@ class modReporting extends DolibarrModules
 		$this->menu[$r++]=array(
 			'fk_menu'=>'fk_mainmenu=reporting,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'Report',
+			'titre'=>'report',
 			'mainmenu'=>'reporting',
 			'leftmenu'=>'reporting_myobject_new',
 			'url'=>'/custom/reporting/reportingindex.php',
@@ -593,11 +594,19 @@ class modReporting extends DolibarrModules
         $data = array();
                 
         $sql = "SELECT 
-                    date(datec) as date,
-                    nom as name
-                FROM
-                    db_societe
-                where client = 2 and year(datec) in (2021,2022)
+						nom as name,
+						date(A.datec) as date,
+						phone,
+						A.email,
+						firstname,
+						lastname
+				FROM
+					db_societe A 
+				left join db_societe_commerciaux B on (A.rowid = B.rowid)
+				left join db_user C on (B.fk_user = C.rowid)
+				WHERE
+					client = 2
+						AND YEAR(A.datec) IN (2021 , 2022)
 				LIMIT 10;";
                 
         $result=$this->db->query($sql);			
@@ -610,9 +619,10 @@ class modReporting extends DolibarrModules
         
         $t = '<h4 style="text-align:center">Prospects</h4>';
         $t .= '<table class="noborder">';
+		$t .= '<th>Date</th><th>Name</th><th>Phone</th><th>Email</th><th>Rep Firstname</th><th>Rep Lastname</th>';
         foreach($data as $d){           
             
-                $t .= "<tr><td>".$d['date']."</td><td>".$d['name']."</td></tr>";
+                $t .= "<tr><td>".$d['date']."</td><td>".$d['name']."</td><td>".$d['phone']."</td><td>".$d['email']."</td><td>".$d['firstname']."</td><td>".$d['lastname']."</td></tr>";
                         
         }
 
@@ -681,22 +691,19 @@ class modReporting extends DolibarrModules
 	}
 
 	public function read($x, $y){
-		if(isset($_GET['rptid']) && isset($_GET['rptname'])){
-			$sql = "Select $x from fcreports where id = ".$_GET['rptid'];			
-			$result=$this->db->query($sql);			
-			$data = array();
-			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
-				$data[] = $row;
-			}
+		$sql = "Select $x from fcreports where id = ".$_SESSION['rptid'];
+					
+		$result=$this->db->query($sql);			
+		$data = array();
+		while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
+			$data[] = $row;
+		}
 
-			$this->db->free($result);
+		$this->db->free($result);
 
-			$d = array_shift($data);
-			$d2 = array_shift($d);
-			return $d2;
-		}else{
-			return null;
-		}		
+		$d = array_shift($data);
+		$d2 = array_shift($d);
+		return $d2;			
 	}
 
 	public function save_report(){
@@ -776,4 +783,24 @@ class modReporting extends DolibarrModules
         
         $writer->close();		
     }
+
+	public function read_menu($rowid){
+		
+			$sql = "SELECT
+						titre
+					FROM
+						db_menu
+					where module = 'reporting' and rowid = $rowid and type = 'left';";			
+			$result=$this->db->query($sql);			
+			$data = array();
+			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {           
+				$data[$row['rowid']] = $row;
+			}
+
+			$this->db->free($result);
+
+			$d = array_shift($data);
+
+			return $d['titre'];						
+	}
 }

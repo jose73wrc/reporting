@@ -258,39 +258,22 @@ if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] ==
 }
 
 if(isset($_POST['control']) && !empty($_POST['control']) && $_POST['control'] == 'export'){
-	$obj->export($_POST['rptname'], $i->get_incomestmt(), $b->get_balancesheet());	
-	//$obj->export($_POST['rptname'], $b->get_balancesheet());	
+	$obj->export($_POST['rptname'], $i->get_incomestmt(), $b->get_balancesheet());
 }
 
 if(isset($_REQUEST['rptid']) && !empty($_REQUEST['rptname'])){
 	//selected to load a report
-	$_SERVER['rptid'] = $_REQUEST['rptid'];	
+	$_SESSION['rptid'] = $_REQUEST['rptid'];	
+	include 'view/index.php';
 }
 
-switch ($_REQUEST['idmenu']) {
-  case "245":
-    echo 'Instructions';
-    break;
-  case "246":	
-    echo $obj->id_form('remarks');
-    break;
-  case "247":
-	echo $obj->id_form('analysis');
-	break;
-  case "248":
-    echo $obj->id_form('sales');
-    break;
-  case "249":
-	echo $obj->id_form('mrkt');
-	break;
-  case "250":
-	echo $obj->id_form('forward');
-	break;
-  case "251":
-    include 'view/index.php';
-	break;
-  default:
-  	include 'view/index.php';
+// Read menu selections
+$m = $obj->read_menu($_REQUEST['idmenu']);
+
+if($m == 'report'){
+	include 'view/index.php';
+}else{
+	echo $obj->id_form($m);
 }
 
 // End of page
