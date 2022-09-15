@@ -272,7 +272,10 @@ $m = $obj->read_menu($_REQUEST['idmenu']);
 
 if($m == 'report'){
 	include 'view/index.php';
+}elseif($m == 'instructions' || $m == '' ){
+    include 'view/help.php';
 }else{
+	echo $m;
 	echo $obj->id_form($m);
 }
 

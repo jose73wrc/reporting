@@ -803,4 +803,8 @@ class modReporting extends DolibarrModules
 
 			return $d['titre'];						
 	}
+
+	public function read_data(){
+		return array('one'=>'two');
+	}
 }

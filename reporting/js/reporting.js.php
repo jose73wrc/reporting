@@ -92,8 +92,14 @@ if (empty($dolibarr_nocache)) {
 } else {
 	header('Cache-Control: no-cache');
 }
+
+require_once DOL_DOCUMENT_ROOT.'/custom/reporting/core/modules/modReporting.class.php';
+$obj = new modReporting($db);
+
+if(isset($_POST)){
+	$o = $obj->read_data();
+	exit(json_encode($o));
+}
 ?>
 
 /* Javascript library of module Reporting */
-
-
