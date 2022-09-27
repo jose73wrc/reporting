@@ -33,6 +33,7 @@ use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Common\Entity\Row;
 require_once DOL_DOCUMENT_ROOT.'/custom/reporting/spout-3.3.0/src/Spout/Autoloader/autoload.php';
 include_once DOL_DOCUMENT_ROOT .'/core/modules/DolibarrModules.class.php';
+include_once DOL_DOCUMENT_ROOT.'/custom/reporting/core/modules/BalanceSheet.class.php';
 /**
  *  Description and activation class for module Reporting
  */
@@ -547,7 +548,7 @@ class modReporting extends DolibarrModules
 		return $this->_remove($sql, $options);
 	}
 
-	public function current_projects($x){       
+	public function current_projects($x, $databasetable){       
         $data = array();
         if(!isset($_REQUEST['select_year'])){
             $stmt_year = 2022;
@@ -564,7 +565,7 @@ class modReporting extends DolibarrModules
                     label,
                     round(budget_amount,2) as budget
                 FROM
-                    db_projet A
+                    ".$databasetable."_projet A
                 left join db_categorie_project B on (A.rowid = B.fk_project)
                 left join db_categorie C on (B.fk_categorie = C.rowid)
                 where year(datec) in ($stmt_year);";
@@ -590,7 +591,7 @@ class modReporting extends DolibarrModules
         return $t;
     }
 
-	public function get_prospects(){       
+	public function get_prospects($databasetable){       
         $data = array();
                 
         $sql = "SELECT 
@@ -601,7 +602,7 @@ class modReporting extends DolibarrModules
 						firstname,
 						lastname
 				FROM
-					db_societe A 
+					".$databasetable."_societe A 
 				left join db_societe_commerciaux B on (A.rowid = B.rowid)
 				left join db_user C on (B.fk_user = C.rowid)
 				WHERE
@@ -631,12 +632,12 @@ class modReporting extends DolibarrModules
         return $t;
     }
 
-	public function get_meetings(){       
+	public function get_meetings($databasetable){       
         $data = array();               
         $sql = "SELECT 
                     *
                 FROM
-                    db_actioncomm
+                    ".$databasetable."_actioncomm
                 where fk_action = 5
                 order by datec desc;";
                             
@@ -805,6 +806,9 @@ class modReporting extends DolibarrModules
 	}
 
 	public function read_data(){
-		return array('one'=>'two');
+		
+		$bb = new BalanceSheet($db);
+		$o = $bb->get_balancesheet();
+		return $o;
 	}
 }

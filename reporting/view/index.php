@@ -30,47 +30,59 @@
         <div class="controls">
             <form name="controls" method="POST">
                 <div class="btn-group" role="group">
-                <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    load
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <?php echo $obj->load_options();?>
-                </div>
-                </div>
-                    <!--<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-secondary">load</button>-->
-                    <input type="submit" name="control" class="btn btn-outline-secondary" value="save" />
-                    <input type="submit" name="control" class="btn btn-outline-secondary" value="export" />
-                    <!--<a type="button" name="control" class="btn btn-outline-secondary" value="download">download</a>-->           
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        load
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <?php echo $obj->load_options();?>
+                    </div>
+                  </div>
+                  <div>
+                      <!--<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-secondary">load</button>-->
+                      <input type="submit" name="control" class="btn btn-outline-secondary" value="save" />
+                      <input type="submit" name="control" class="btn btn-outline-secondary" value="export" />
+                      <!--<a type="button" name="control" class="btn btn-outline-secondary" value="download">download</a>-->           
+                  </div>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Data
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                      <a class="dropdown-item"  name="control" value="qftf">QuickFixTrips</a>
+                      <a class="dropdown-item" href="?source=udi" name="control" value="udi">UDI Group LLC</a>
+                    </div>
+                  </div>
                 </div>
             </form>
         </div>       
         <div class="main">
+            <?php $thedb = "i3797837_db2.db2"  ?>
             <div class="text"><?php include 'remarks.php';?></div>
             <div class=" row charts"></div>
             <div class="text"><?php include 'analysis.php';?></div>
             <div class=" row charts">
-            <?php $h = $b->get_balancesheet();?>
+            <?php $h = $b->get_balancesheet($thedb);?>
                 <div class="col-6"><?php echo $h[0];?></div>
-                <div class="col-6"><?php echo $r->get_ratios(); ?></div>
+                <div class="col-6"><?php echo $r->get_ratios($thedb); ?></div>
             </div>
             <div class="text"></div>
             <div class=" row charts">
-                <div class="col-12"><?php echo $c->get_cashflow();?></div>                
+                <div class="col-12"><?php echo $c->get_cashflow($thedb);?></div>                
             </div>
             <div class="text"><?php include 'sales.php';?></div>
             <div class=" row charts">
-                <div class="col-12"><?php echo $i->get_incomestmt();?></div> 
-                <div class="col-12"><?php echo $obj->current_projects('sales');?></div> 
-                <div class="col-12"><?php echo $obj->get_prospects();?></div>               
+                <div class="col-12"><?php echo $i->get_incomestmt($thedb);?></div> 
+                <div class="col-12"><?php echo $obj->current_projects('sales', 'i3797837_db8.db');?></div> 
+                <div class="col-12"><?php echo $obj->get_prospects($thedb);?></div>               
             </div>
             <div class="text"><?php include 'marketing.php';?></div>
             <div class=" row charts">
-                <div class="col-12"><?php echo $obj->current_projects('mrkt');?></div>                
+                <div class="col-12"><?php echo $obj->current_projects('mrkt', 'i3797837_db8.db');?></div>                
             </div>
             <div class="text"><?php include 'forward.php';?></div>
             <div class=" row charts">
-                <div class="col-12"><?php echo $obj->get_meetings();?></div>                
+                <div class="col-12"><?php echo $obj->get_meetings($thedb);?></div>                
             </div>
         </div>       
     </div>    
@@ -97,7 +109,3 @@
 </body>
 </html>
 <?php
-//
-//
-//
-//

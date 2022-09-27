@@ -3,10 +3,6 @@ $(function() {
     console.log('ready');
   
     $( "body" ).click(function() {
-        //const data = editor.getData();
-        //console.log(data);
-       // data = 'Hello World';
-        //$('.section').append('<input name="data" type="hidden" value="'+data+'" />');
         init();
         console.log('clicked');
     });
@@ -15,15 +11,16 @@ $(function() {
     function init(){     
 
         $.ajax({
-            url : '../reporting/js/reporting.js.php',
+            url : '../reporting/reportingindex.php',
             type: 'POST',
             data: { myData: 'This is my data.' }, 
             success : function(x){
                 console.log(x);
                 console.log('worked');
+                $('body h1').css('color','red');
             }
         })
     }
 
     
-  });
+});

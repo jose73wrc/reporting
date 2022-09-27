@@ -25,32 +25,25 @@
 <link rel="stylesheet" href="view/view.css">
 </head>
 <body>
-<h2>Business Report - Getting Started</h2>
+<h2>Business Report v1.5 - Getting Started</h2>
     <div class="container report">   
         <div class="main">
            <div class="hsection">
-				<h3>Controls</h3>
-				<p></p>
-		   </div>
-        </div>
-		<div class="main">
-           <div class="hsection">
-		   <h3>Menu Items</h3>
-		   <p></p>
-		   </div>
-        </div>
-		<div class="main">
-           <div class="hsection">
-		   <h3>Content</h3>
-		   <p></p>
-		   </div>
-        </div>
-		<div class="main">
-           <div class="hsection">
-		   <h3>Automated Data</h3>
-		   <p></p>
-		   </div>
-        </div>       
+				<h3></h3>
+				<p>The only module you need for business reporting using a fully featured document to inlcude</p>
+				<ul>
+					<li>Editable sections to explain, briefly discuss section topics, or address a specific audience.</li>
+					<li>Balance Sheet</li>
+					<li>Income Statements</li>
+					<li>Cash Flow Statements</li>
+					<li>Project Summaries</li>
+					<li>Meeting Agendas & Minute Notes</li>
+					<li>Expense Summaries</li>
+					<li>Sales Propsect List including assigned representatives</li>
+				</ul>
+				<p>Calculations are performed on every report selection for the most recent data.  Use the menu to edit section text and save.</p>
+			</div>
+        </div>		    
     </div>
 </body>
 </html>

@@ -249,6 +249,9 @@ $i = new IncomeStatement($db);
 $c = new CashFlow($db);
 $obj = new modReporting($db);
 
+//troubleshooting output
+//print_r($_REQUEST);
+
 if(isset($_POST) && !empty($_POST) && empty($_POST['rptname']) ){
 	$obj->save($_POST);
 }
@@ -267,6 +270,10 @@ if(isset($_REQUEST['rptid']) && !empty($_REQUEST['rptname'])){
 	include 'view/index.php';
 }
 
+if(isset($_POST['myData']) && !empty($_POST['myData']) ){
+	//include 'view/help.php';
+}
+
 // Read menu selections
 $m = $obj->read_menu($_REQUEST['idmenu']);
 
@@ -279,6 +286,9 @@ if($m == 'report'){
 	echo $obj->id_form($m);
 }
 
+if(isset($_GET['source']) && !empty($_GET['source']) ){
+	exit(print_r($_REQUEST));
+}
 // End of page
 llxFooter();
 $db->close();

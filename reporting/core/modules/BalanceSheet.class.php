@@ -48,10 +48,10 @@ class BalanceSheet extends DolibarrModules
      * Create two outputs for export
      * 
      */
-    public function get_balancesheet(){	
+    public function get_balancesheet($databasetable){	
         $data = array();
-                
-        $sql ='SELECT 
+       
+        $sql ="SELECT 
         SUM(invoices) AS Current_Assets,
         SUM(purchase_orders) AS Current_Liabilities,
         SUM(expenses) AS Expenses,
@@ -88,7 +88,7 @@ class BalanceSheet extends DolibarrModules
                 YEAR(datef) AS revenue_year,
                 ROUND(SUM(total_ttc), 2) AS total_revenue
         FROM
-            db_facture
+            ".$databasetable."_facture
         GROUP BY YEAR(datef) , MONTH(datef)) I ON (I.month_num = M.month_id)
         LEFT JOIN (SELECT 
             MONTH(datef) AS vendor_month_num,
@@ -96,7 +96,7 @@ class BalanceSheet extends DolibarrModules
                 YEAR(datef) AS vendor_year,
                 ROUND(SUM(total_ttc), 2) AS vendor_total
         FROM
-            db_facture_fourn
+        ".$databasetable."_facture_fourn
         GROUP BY YEAR(datef) , MONTH(datef)) V ON (V.vendor_month_num = M.month_id
             AND V.vendor_year = revenue_year)
         LEFT JOIN (SELECT 
@@ -107,7 +107,7 @@ class BalanceSheet extends DolibarrModules
                 YEAR(DATE(date_approve)) AS exp_year,
                 ROUND(total_ttc, 2) AS exp_total
         FROM
-            db_expensereport) E ON (E.month_num = M.month_id
+        ".$databasetable."_expensereport) E ON (E.month_num = M.month_id
             AND E.exp_year = revenue_year)
         LEFT JOIN (SELECT 
             rowid,
@@ -118,7 +118,7 @@ class BalanceSheet extends DolibarrModules
                 ROUND(amount_capital, 2) AS interest_payments,
                 SUM(ROUND(amount_capital, 2)) AS monthly_interest_payments
         FROM
-            db_loan_schedule
+        ".$databasetable."_loan_schedule
         GROUP BY YEAR(datep) , MONTH(datep)) L ON (L.month_num = M.month_id
             AND L.year_loan_payment = revenue_year)
         ORDER BY revenue_year , month_id) T1
@@ -129,12 +129,13 @@ class BalanceSheet extends DolibarrModules
                 YEAR(datep) AS salary_payment_year,
                 ROUND(amount, 2) AS salary_amount
         FROM
-            db_payment_salary
+        ".$databasetable."_payment_salary
         GROUP BY YEAR(datep) , MONTH(datep)) B ON (T1.month_id = B.month_num)
-        order by revenue_year, month_id) T1';
+        order by revenue_year, month_id) T1";
         
-       // exit($sql);
-        $result=$this->db->query($sql);			
+        
+        $result=$this->db->query($sql);
+        
         $b = array();
         /*while ($row = $this->db->fetch_array($result)) {
             $data[] = $row;
